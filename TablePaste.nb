@@ -1,0 +1,299 @@
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Construct paclet", "Section",
+ ExpressionUUID -> "82dd3c38-16a5-4ad7-8dbf-71518779c504"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Needs", "[", "\"\<JLink`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Begin", "[", "\"\<TablePaste`Private`\>\"", "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Global`palette", " ", "=", " ", 
+    RowBox[{"PaletteNotebook", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"DynamicModule", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"contents", " ", "=", " ", 
+          RowBox[{"ProgressIndicator", "[", 
+           RowBox[{
+            RowBox[{"Appearance", " ", "\[Rule]", " ", "\"\<Necklace\>\""}], 
+            ",", " ", 
+            RowBox[{"ImageSize", " ", "\[Rule]", " ", "100"}]}], "]"}]}], 
+         "}"}], ",", "\[IndentingNewLine]", "  ", 
+        RowBox[{"Dynamic", "[", "contents", "]"}], ",", "\[IndentingNewLine]",
+         "  ", 
+        RowBox[{"Initialization", "\[RuleDelayed]", 
+         RowBox[{"(", "\n", "    ", 
+          RowBox[{
+           RowBox[{"Needs", "[", "\"\<JLink`\>\"", "]"}], ";", "\n", "    ", 
+           RowBox[{"JLink`InstallJava", "[", "]"}], ";", "\n", "    ", 
+           RowBox[{"JLink`LoadJavaClass", "[", 
+            RowBox[{"\"\<java.awt.Toolkit\>\"", ",", " ", 
+             RowBox[{"JLink`AllowShortContext", " ", "->", " ", "False"}]}], 
+            "]"}], ";", "\n", "    ", 
+           RowBox[{"JLink`LoadJavaClass", "[", 
+            RowBox[{"\"\<java.awt.datatransfer.DataFlavor\>\"", ",", " ", 
+             RowBox[{"JLink`AllowShortContext", " ", "->", " ", "False"}]}], 
+            "]"}], ";", "\n", "\n", "    ", 
+           RowBox[{
+            RowBox[{"getClipboardString", "[", "]"}], ":=", "\n", "      ", 
+            RowBox[{"JLink`JavaBlock", " ", "@", " ", 
+             RowBox[{"Module", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"clipboard", ",", " ", "flavor"}], "}"}], "\n", 
+               "      ", ",", " ", 
+               RowBox[{
+                RowBox[{"clipboard", " ", "=", " ", 
+                 RowBox[{
+                  RowBox[{"java`awt`Toolkit`getDefaultToolkit", "[", "]"}], 
+                  " ", "@", " ", 
+                  RowBox[{"getSystemClipboard", "[", "]"}]}]}], "\n", 
+                "      ", ";", " ", 
+                RowBox[{
+                "flavor", " ", "=", " ", 
+                 "java`awt`datatransfer`DataFlavor`stringFlavor"}], "\n", 
+                "      ", ";", " ", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{"clipboard", "@", 
+                   RowBox[{"isDataFlavorAvailable", "[", "flavor", "]"}]}], 
+                  ",", " ", 
+                  RowBox[{"clipboard", " ", "@", " ", 
+                   RowBox[{"getData", "[", "flavor", "]"}]}], ",", " ", 
+                  "$Failed"}], "]"}]}]}], "\n", "    ", "]"}]}]}], ";", "\n", 
+           "    ", "\n", "    ", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"$OperatingSystem", " ", "===", " ", "\"\<MacOSX\>\""}], 
+             ",", "\n", "        ", 
+             RowBox[{
+              RowBox[{"JLink`LoadJavaClass", "[", 
+               RowBox[{"\"\<java.lang.System\>\"", ",", " ", 
+                RowBox[{"JLink`AllowShortContext", "\[Rule]", "False"}]}], 
+               "]"}], ";", "\n", "        ", 
+              RowBox[{"java`lang`System`setProperty", "[", 
+               RowBox[{"\"\<apple.awt.UIElement\>\"", ",", "\"\<true\>\""}], 
+               "]"}], ";"}]}], "\n", "    ", "]"}], ";", "\n", "    ", "\n", 
+           "    ", 
+           RowBox[{
+            RowBox[{"trim", "[", "s_String", "]"}], " ", ":=", " ", 
+            RowBox[{"StringTrim", "[", "s", "]"}]}], ";", "\n", "    ", 
+           RowBox[{
+            RowBox[{"trim", "[", "e_", "]"}], " ", ":=", " ", "e"}], ";", 
+           "\n", "    ", "\n", "    ", 
+           RowBox[{
+            RowBox[{"paste", "[", "type_", "]"}], " ", ":=", " ", "\n", 
+            "      ", 
+            RowBox[{"With", "[", 
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{"string", " ", "=", " ", 
+                RowBox[{"getClipboardString", "[", "]"}]}], "}"}], ",", "\n", 
+              "        ", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{"StringQ", "[", "string", "]"}], ",", "\n", 
+                "          ", 
+                RowBox[{"NotebookWrite", "[", 
+                 RowBox[{
+                  RowBox[{"InputNotebook", "[", "]"}], ",", " ", 
+                  RowBox[{"ToBoxes", "@", 
+                   RowBox[{"parse", "[", 
+                    RowBox[{"type", ",", " ", "string"}], "]"}]}]}], "]"}], 
+                ",", "\n", "          ", 
+                RowBox[{"Beep", "[", "]"}]}], "\n", "        ", "]"}]}], "\n",
+              "      ", "]"}]}], ";", "\n", "      ", "\n", "    ", 
+           RowBox[{
+            RowBox[{"parse", "[", 
+             RowBox[{"type_", ",", " ", "string_"}], "]"}], " ", ":=", " ", 
+            RowBox[{"Map", "[", 
+             RowBox[{"trim", ",", " ", 
+              RowBox[{"ImportString", "[", 
+               RowBox[{"string", ",", " ", "type"}], "]"}], ",", " ", 
+              RowBox[{"{", "2", "}"}]}], "]"}]}], ";", "\n", "    ", 
+           RowBox[{
+            RowBox[{"parse", "[", 
+             RowBox[{"\"\<Semantic\>\"", ",", " ", "string_"}], "]"}], " ", ":=",
+             " ", 
+            RowBox[{"SemanticImportString", "@", 
+             RowBox[{"StringReplace", "[", 
+              RowBox[{"string", ",", " ", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"FromCharacterCode", "[", 
+                   RowBox[{"{", 
+                    RowBox[{"13", ",", "10"}], "}"}], "]"}], "\[Rule]", 
+                  "\"\<\\n\>\""}], ",", 
+                 RowBox[{
+                  RowBox[{"FromCharacterCode", "[", 
+                   RowBox[{"{", "13", "}"}], "]"}], "\[Rule]", 
+                  "\"\<\\n\>\""}]}], "}"}]}], "]"}]}]}], ";", 
+           "\[IndentingNewLine]", "\n", "    ", 
+           RowBox[{"contents", " ", "=", " ", 
+            RowBox[{"Pane", "@", 
+             RowBox[{"Column", "[", "\[IndentingNewLine]", "     ", 
+              RowBox[{
+               RowBox[{"MapThread", "[", "\n", "        ", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"Tooltip", "[", 
+                   RowBox[{
+                    RowBox[{"Button", "[", 
+                    RowBox[{"#", ",", " ", 
+                    RowBox[{"paste", "[", "#", "]"}], ",", " ", 
+                    RowBox[{"Appearance", "\[Rule]", "\"\<Palette\>\""}], ",",
+                     " ", 
+                    RowBox[{"ImageSize", " ", "\[Rule]", " ", 
+                    RowBox[{"{", 
+                    RowBox[{"100", ",", " ", "Automatic"}], "}"}]}]}], "]"}], 
+                    ",", " ", "#2"}], "]"}], "&"}], ",", " ", "\n", 
+                 "        ", 
+                 RowBox[{"Transpose", "@", "\n", "        ", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "\"\<Table\>\"", ",", " ", "\"\<Paste as table\>\""}], 
+                    "}"}], ",", "\n", "         ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "\"\<TSV\>\"", ",", " ", 
+                    "\"\<Paste tab-separated values as table\>\""}], "}"}], 
+                    ",", "\n", "         ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "\"\<CSV\>\"", ",", " ", 
+                    "\"\<Paste comma-separated values as table\>\""}], "}"}], 
+                    ",", "\n", "         ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "\"\<List\>\"", ",", " ", "\"\<Paste list of lines\>\""}],
+                     "}"}], ",", "\n", "         ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "\"\<Semantic\>\"", ",", " ", 
+                    "\"\<Paste as Dataset\>\""}], "}"}], ",", "\n", 
+                    "         ", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    "$VersionNumber", " ", "\[GreaterEqual]", " ", "10.2"}], 
+                    ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "\"\<RawJSON\>\"", ",", " ", 
+                    "\"\<Paste JSON as nested associations\>\""}], "}"}], ",",
+                     " ", 
+                    RowBox[{"Unevaluated", "@", 
+                    RowBox[{"Sequence", "[", "]"}]}]}], "]"}]}], "\n", 
+                   "        ", "}"}]}]}], "\n", "      ", "]"}], ",", "\n", 
+               "      ", 
+               RowBox[{"Spacings", " ", "\[Rule]", " ", "0"}]}], 
+              "\[IndentingNewLine]", "    ", "]"}]}]}], ";"}], 
+          "\[IndentingNewLine]", "    ", ")"}]}], ",", "\n", "    ", "\n", 
+        "    ", 
+        RowBox[{"SynchronousInitialization", " ", "\[Rule]", " ", "False"}]}],
+        "\[IndentingNewLine]", "  ", "]"}], ",", "\n", "  ", 
+      RowBox[{"WindowTitle", "\[Rule]", "\"\<Table Paste\>\""}], ",", "\n", 
+      "  ", 
+      RowBox[{"WindowElements", "\[Rule]", 
+       RowBox[{"{", "\"\<MagnificationPopUp\>\"", "}"}]}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"End", "[", "]"}], ";"}]}], "Code",
+ ExpressionUUID -> "233b7060-54fd-48a1-ba78-6c0e8c9c8eb6"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"paclet", "=", 
+   RowBox[{"Paclet", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Name", "\[Rule]", "\"\<TablePaste\>\""}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Version", "\[Rule]", "\"\<1.0.0\>\""}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"MathematicaVersion", "\[Rule]", "\"\<10.0+\>\""}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+     "Description", "\[Rule]", 
+      "\"\<Paste tables copied from the web into Mathematica.\>\""}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Creator", "\[Rule]", "\"\<Szabolcs Horv\[AAcute]t\>\""}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Extensions", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"{", "\"\<FrontEnd\>\"", "}"}], "}"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}]], "Input",
+ ExpressionUUID -> "d3f3b3c2-c4a5-4648-8590-31ecb33ed13f"],
+
+Cell[BoxData[{
+ RowBox[{"Check", "[", 
+  RowBox[{
+   RowBox[{"SetDirectory", "@", 
+    RowBox[{"NotebookDirectory", "[", "]"}]}], ",", 
+   RowBox[{"Abort", "[", "]"}]}], "]"}], "\n", 
+ RowBox[{"If", "[", 
+  RowBox[{
+   RowBox[{"DirectoryQ", "[", "\"\<paclet\>\"", "]"}], ",", 
+   RowBox[{"DeleteDirectory", "[", 
+    RowBox[{"\"\<paclet\>\"", ",", 
+     RowBox[{"DeleteContents", "\[Rule]", "True"}]}], "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"CreateDirectory", "[", 
+  RowBox[{"\"\<paclet/FrontEnd/Palettes\>\"", ",", 
+   RowBox[{"CreateIntermediateDirectories", "\[Rule]", "True"}]}], 
+  "]"}]}], "Input",
+ ExpressionUUID -> "463e466a-fcdb-4454-885d-9bc91cd51c98"],
+
+Cell[BoxData[
+ RowBox[{"Put", "[", 
+  RowBox[{"paclet", ",", "\"\<paclet/PacletInfo.m\>\""}], "]"}]], "Input",
+ ExpressionUUID -> "7c6cf798-f742-447b-86c4-1d0956469593"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"nb", "=", 
+   RowBox[{"CreateDocument", "[", "palette", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Export", "[", 
+  RowBox[{"\"\<paclet/FrontEnd/Palettes/TablePaste.nb\>\"", ",", "nb"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"NotebookClose", "[", "nb", "]"}]}], "Input",
+ ExpressionUUID -> "e5680fb9-39d4-4840-950c-5933deb7dab5"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Install paclet", "Section",
+ ExpressionUUID -> "3dc16036-c81b-41e3-a76d-39a4fa28fb22"],
+
+Cell[BoxData[
+ RowBox[{"pacletFile", "=", 
+  RowBox[{"PackPaclet", "[", "\"\<paclet\>\"", "]"}]}]], "Input",
+ ExpressionUUID -> "e43dad3c-4918-4695-bcf9-0d62b4b2ade1"],
+
+Cell[BoxData[
+ RowBox[{"PacletUninstall", "[", "\"\<TablePaste\>\"", "]"}]], "Input",
+ ExpressionUUID -> "e1c2f358-a71d-4d96-aa36-cce23ae20cdd"],
+
+Cell[BoxData[
+ RowBox[{"PacletInstall", "[", "pacletFile", "]"}]], "Input",
+ ExpressionUUID -> "b173127b-4c6d-4c3c-ada6-33b3b29f5198"]
+}, Open  ]]
+},
+WindowSize->{1070, 759},
+WindowMargins->{{132, Automatic}, {Automatic, 0}},
+TrackCellChangeTimes->False,
+FrontEndVersion->"10.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (December 4, \
+2014)",
+StyleDefinitions->"Default.nb"
+]
