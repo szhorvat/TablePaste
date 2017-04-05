@@ -69,19 +69,22 @@ Cell[BoxData[{
                    RowBox[{"getData", "[", "flavor", "]"}]}], ",", " ", 
                   "$Failed"}], "]"}]}]}], "\n", "    ", "]"}]}]}], ";", "\n", 
            "    ", "\n", "    ", 
-           RowBox[{"If", "[", 
+           RowBox[{"(*", "\n", "    ", 
             RowBox[{
-             RowBox[{"$OperatingSystem", " ", "===", " ", "\"\<MacOSX\>\""}], 
-             ",", "\n", "        ", 
-             RowBox[{
-              RowBox[{"JLink`LoadJavaClass", "[", 
-               RowBox[{"\"\<java.lang.System\>\"", ",", " ", 
-                RowBox[{"JLink`AllowShortContext", "\[Rule]", "False"}]}], 
-               "]"}], ";", "\n", "        ", 
-              RowBox[{"java`lang`System`setProperty", "[", 
-               RowBox[{"\"\<apple.awt.UIElement\>\"", ",", "\"\<true\>\""}], 
-               "]"}], ";"}]}], "\n", "    ", "]"}], ";", "\n", "    ", "\n", 
-           "    ", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{
+               "$OperatingSystem", " ", "===", " ", "\"\<MacOSX\>\""}], ",", 
+               "\n", "        ", 
+               RowBox[{
+                RowBox[{"JLink`LoadJavaClass", "[", 
+                 RowBox[{"\"\<java.lang.System\>\"", ",", " ", 
+                  RowBox[{"JLink`AllowShortContext", "\[Rule]", "False"}]}], 
+                 "]"}], ";", "\n", "        ", 
+                RowBox[{"java`lang`System`setProperty", "[", 
+                 RowBox[{"\"\<apple.awt.UIElement\>\"", ",", "\"\<true\>\""}],
+                  "]"}], ";"}]}], "\n", "    ", "]"}], ";"}], "*)"}], "\n", 
+           "    ", "\n", "    ", 
            RowBox[{
             RowBox[{"trim", "[", "s_String", "]"}], " ", ":=", " ", 
             RowBox[{"StringTrim", "[", "s", "]"}]}], ";", "\n", "    ", 
@@ -106,8 +109,9 @@ Cell[BoxData[{
                   RowBox[{"InputNotebook", "[", "]"}], ",", " ", 
                   RowBox[{"ToBoxes", "@", 
                    RowBox[{"parse", "[", 
-                    RowBox[{"type", ",", " ", "string"}], "]"}]}]}], "]"}], 
-                ",", "\n", "          ", 
+                    RowBox[{"type", ",", " ", 
+                    RowBox[{"StringTrim", "[", "string", "]"}]}], "]"}]}]}], 
+                 "]"}], ",", "\n", "          ", 
                 RowBox[{"Beep", "[", "]"}]}], "\n", "        ", "]"}]}], "\n",
               "      ", "]"}]}], ";", "\n", "      ", "\n", "    ", 
            RowBox[{
@@ -219,7 +223,7 @@ Cell[BoxData[
     RowBox[{
      RowBox[{"Name", "\[Rule]", "\"\<TablePaste\>\""}], ",", 
      "\[IndentingNewLine]", 
-     RowBox[{"Version", "\[Rule]", "\"\<1.0.0\>\""}], ",", 
+     RowBox[{"Version", "\[Rule]", "\"\<1.0.1\>\""}], ",", 
      "\[IndentingNewLine]", 
      RowBox[{"MathematicaVersion", "\[Rule]", "\"\<10.0+\>\""}], ",", 
      "\[IndentingNewLine]", 
@@ -297,3 +301,4 @@ FrontEndVersion->"10.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (December 4, \
 2014)",
 StyleDefinitions->"Default.nb"
 ]
+
